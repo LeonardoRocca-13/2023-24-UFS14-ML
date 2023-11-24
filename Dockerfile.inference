@@ -1,0 +1,14 @@
+# Tensorflow image image 763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-inference:2.12-cpu
+FROM 763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-inference:2.12-cpu
+
+# /opt/ml and all subdirectories are utilized by SageMaker, use the /code subdirectory to store your user code.
+ADD ./src/inference /opt/ml/code/
+
+RUN pip install -r /opt/ml/code/requirements.txt
+
+# Defines my-custom-inference-script.py as Flask app
+# https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application
+ENV FLASK_APP=/opt/ml/code/my-custom-inference-script.py
+
+# Defines a custom Docker entrypoint to spawn flask
+ENTRYPOINT ["/opt/ml/code/entrypoint.sh"]

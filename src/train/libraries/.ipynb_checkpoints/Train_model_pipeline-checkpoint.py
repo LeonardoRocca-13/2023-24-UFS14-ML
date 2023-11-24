@@ -1,3 +1,4 @@
+import tensorflow_addons as tfa
 import tensorflow as tf
 import pickle
 import keras
@@ -6,7 +7,7 @@ from libraries.Image_generator import Image_generator
 from libraries.Models_creation import Create_fcnn_model, Create_unet_model
 
 
-f1_score = keras.metrics.F1Score(average='macro')
+f1_score = tfa.metrics.F1Score(average='macro')
 def f1_score_custom(y_true, y_pred):
     y_true = tf.reshape(y_true, (-1, 3))
     y_pred = tf.reshape(y_pred, (-1, 3))
@@ -17,13 +18,13 @@ def f1_score_custom(y_true, y_pred):
 def Train_FCNN_Model(loss: keras.losses.Loss, save_path: str, buffer_size: int, batch_size: int, epochs: int, learning_rate: float):
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
-        checkpoint_filepath = save_path + '/FCNN_{epoch:03d}.h5'
+        #checkpoint_filepath = save_path + '/FCNN_{epoch:03d}.h5'
 
         callbacks = [
-            keras.callbacks.ModelCheckpoint(
-                filepath=checkpoint_filepath,
-                save_best_only=True
-            ),
+            #keras.callbacks.ModelCheckpoint(
+            #    filepath=checkpoint_filepath,
+            #    save_best_only=True
+            #),
             keras.callbacks.EarlyStopping(
                 patience=10,
                 restore_best_weights=True
@@ -90,13 +91,13 @@ def Train_FCNN_Model(loss: keras.losses.Loss, save_path: str, buffer_size: int, 
 def Train_UNET_Model(loss: str, save_path: str, buffer_size: int, batch_size: int, epochs: int, learning_rate: float):
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
-        checkpoint_filepath = save_path + '/UNET_{epoch:03d}.h5'
+        #checkpoint_filepath = save_path + '/UNET_{epoch:03d}.h5'
 
         callbacks = [
-            keras.callbacks.ModelCheckpoint(
-                filepath=checkpoint_filepath,
-                save_best_only=True
-            ),
+            #keras.callbacks.ModelCheckpoint(
+            #    filepath=checkpoint_filepath,
+            #    save_best_only=True
+            #),
             keras.callbacks.EarlyStopping(
                 patience=10,
                 restore_best_weights=True

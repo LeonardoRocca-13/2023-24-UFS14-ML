@@ -1,13 +1,13 @@
-# SageMaker PyTorch image
-FROM 763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-training:2.12.0-cpu-py310
+# Tensorflow image 763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-training:2.12.0-cpu-py310
+FROM 763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-training:2.13.0-cpu-py310
 
 ENV PATH="/opt/ml/code:${PATH}"
 
-# this environment variable is used by the SageMaker PyTorch container to determine our user code directory.
+# this environment variable is used by the container to determine our user code directory.
 ENV SAGEMAKER_SUBMIT_DIRECTORY /opt/ml/code
 
 # /opt/ml and all subdirectories are utilized by SageMaker, use the /code subdirectory to store your user code.
-ADD ./src /opt/ml/code/
+ADD ./src/train /opt/ml/code/
 
 # Defines my-custom-training-script.py as script entrypoint 
 ENV SAGEMAKER_PROGRAM my-custom-training-script.py
